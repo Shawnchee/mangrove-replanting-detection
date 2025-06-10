@@ -81,7 +81,7 @@ export function VideoPlayer({ detections, isLive, onToggleLive }: VideoPlayerPro
       <div className="relative aspect-video bg-black rounded-lg overflow-hidden">
         <video ref={videoRef} className="w-full h-full object-cover" autoPlay muted loop playsInline>
           <source
-            src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+            src="https://www.shutterstock.com/shutterstock/videos/1099889095/preview/stock-footage-aerial-view-over-green-mangrove-forest-in-tropical-rainforest-mangrove-landscape-and-beautiful.webm"
             type="video/mp4"
           />
         </video>
