@@ -59,7 +59,7 @@ export default function Dashboard() {
   }, [isLive])
 
   return (
-    <div className="min-h-screen bg-background p-4 space-y-6">
+    <div className="min-h-screen bg-background p-4 space-y-6 bg-gradient-to-br from-blue-200 via-blue-300 to-purple-300">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
