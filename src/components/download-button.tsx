@@ -98,45 +98,6 @@ export function DownloadButton({ detections }: DownloadButtonProps) {
     }
   }
 
-  const downloadJSON = async () => {
-    setIsDownloading(true)
-
-    try {
-      const jsonContent = JSON.stringify(
-        {
-          exportDate: new Date().toISOString(),
-          totalDetections: detections.length,
-          detections: detections,
-        },
-        null,
-        2,
-      )
-
-      const blob = new Blob([jsonContent], { type: "application/json;charset=utf-8;" })
-      const link = document.createElement("a")
-      const url = URL.createObjectURL(blob)
-      link.setAttribute("href", url)
-      link.setAttribute("download", `detection-report-${new Date().toISOString().split("T")[0]}.json`)
-      link.style.visibility = "hidden"
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-    } catch (error) {
-      console.error("Error downloading JSON:", error)
-    } finally {
-      setIsDownloading(false)
-    }
-  }
-
-  if (detections.length === 0) {
-    return (
-      <Button variant="outline" disabled>
-        <Download className="w-4 h-4 mr-2" />
-        No Data
-      </Button>
-    )
-  }
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -149,10 +110,6 @@ export function DownloadButton({ detections }: DownloadButtonProps) {
         <DropdownMenuItem onClick={downloadCSV}>
           <Table className="w-4 h-4 mr-2" />
           Download as CSV
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={downloadJSON}>
-          <File className="w-4 h-4 mr-2" />
-          Download as JSON
         </DropdownMenuItem>
         <DropdownMenuItem onClick={downloadPDF}>
          <FileText className="w-4 h-4 mr-2" />
