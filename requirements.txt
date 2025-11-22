@@ -1,0 +1,9 @@
+streamlit
+torch 
+torchvision 
+pillow 
+opencv-python
+ultralytics
+tqdm
+seaborn
+onnxruntime
