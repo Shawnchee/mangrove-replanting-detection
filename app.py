@@ -4,6 +4,8 @@ import numpy as np
 from PIL import Image
 import pandas as pd
 from datetime import datetime
+import time
+import random
 import onnxruntime as ort
 
 st.set_page_config(page_title="Mangrove Replanting Detector", layout="wide")
@@ -67,6 +69,17 @@ def xywh2xyxy(x):
     y[:, 2] = x[:, 0] + x[:, 2] / 2
     y[:, 3] = x[:, 1] + x[:, 3] / 2
     return y
+
+
+def get_mock_gps():
+    """Generate mock GPS coordinates (simulating mangrove region in Southeast Asia)"""
+    # Base coordinates around a mangrove area (e.g., Philippines/Indonesia region)
+    base_lat = 10.3157
+    base_lon = 123.8854
+    # Add small random offset (within ~1km)
+    lat = base_lat + random.uniform(-0.01, 0.01)
+    lon = base_lon + random.uniform(-0.01, 0.01)
+    return f"{lat:.6f}, {lon:.6f}"
 
 
 def nms(boxes, scores, iou_threshold=0.45):
@@ -194,7 +207,8 @@ def infer(img, frame_number=None, conf_threshold=0.75, iou_threshold=0.25, max_b
                 'frame': frame_number if frame_number else 'N/A',
                 'confidence': f"{confidence:.2f}",
                 'bbox': f"[{x1}, {y1}, {x2}, {y2}]",
-                'size': f"{x2-x1}x{y2-y1}"
+                'size': f"{x2-x1}x{y2-y1}",
+                'gps': get_mock_gps()
             }
             st.session_state.detection_logs.append(log_entry)
 
@@ -320,7 +334,15 @@ elif mode == "Upload Video":
 
             cap = cv2.VideoCapture(temp_path)
             total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+            original_fps = cap.get(cv2.CAP_PROP_FPS)
             frame_counter = 0
+            
+            # Set target FPS to 5
+            target_fps = 5
+            frame_delay = 1.0 / target_fps  # 0.2 seconds between frames
+            
+            # Calculate frame skip to match target FPS
+            frame_skip = max(1, int(original_fps / target_fps))
 
             while True:
                 ret, frame = cap.read()
@@ -328,6 +350,13 @@ elif mode == "Upload Video":
                     break
 
                 frame_counter += 1
+                
+                # Process only every Nth frame based on original FPS
+                if frame_counter % frame_skip != 0:
+                    continue
+                
+                start_time = time.time()
+                
                 output, num_detections = infer(frame, frame_counter, conf_threshold, iou_threshold, max_box_ratio)
 
                 if frame_counter % 5 == 0:
@@ -339,10 +368,15 @@ elif mode == "Upload Video":
                         if st.session_state.detection_logs:
                             df = pd.DataFrame(st.session_state.detection_logs[-15:])
                             st.dataframe(df, use_container_width=True, height=400)
+                
+                # Add delay to maintain target FPS
+                elapsed = time.time() - start_time
+                if elapsed < frame_delay:
+                    time.sleep(frame_delay - elapsed)
 
             cap.release()
             progress_bar.progress(1.0)
-            st.success(f"✅ Processing complete! Total frames: {frame_counter}")
+            st.success(f"✅ Processing complete! Total frames: {frame_counter} | Target: {target_fps} FPS")
 
             if st.session_state.detection_logs:
                 df = pd.DataFrame(st.session_state.detection_logs)
