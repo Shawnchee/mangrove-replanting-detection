@@ -1,6 +1,6 @@
 # 🌱 Mangrove Replanting Detection System
 
-A real-time computer vision application for detecting and monitoring mangrove replanting zones using YOLOv5 object detection with ONNX Runtime inference. Now with **RTMP live streaming support for DJI Mini 2 drone**!
+A real-time computer vision application for detecting and monitoring mangrove replanting zones using YOLOv5 object detection with ONNX Runtime inference. Now with **RTMP live streaming support for DJI Mini 2 drone**! Own dataset has been gathered and annotated using Roboflow and trained using YOLOv5
 
 ## 📋 Table of Contents
 - [Overview](#overview)
