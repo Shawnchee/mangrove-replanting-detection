@@ -65,18 +65,12 @@ This project provides an automated solution for detecting mangrove replanting zo
 Stream live video from your **DJI Mini 2** drone and apply real-time mangrove detection using RTMP protocol!
 
 #### Quick Start
-1. **Setup RTMP Server**: See [NGINX_SETUP.md](NGINX_SETUP.md)
-2. **Configure Drone Streaming**: See [DJI_STREAMING_GUIDE.md](DJI_STREAMING_GUIDE.md)
+1. **Setup RTMP Server**
+2. **Configure Drone Streaming**
 3. **Run Inference**: 
    ```powershell
    python rtmp_inference.py --model models/best.pt
    ```
-
-#### Complete Guides
-- 📖 **[QUICK_START.md](QUICK_START.md)** - Complete setup walkthrough
-- 🔧 **[NGINX_SETUP.md](NGINX_SETUP.md)** - RTMP server installation
-- 🚁 **[DJI_STREAMING_GUIDE.md](DJI_STREAMING_GUIDE.md)** - Drone streaming methods
-- 💻 **[COMMANDS.md](COMMANDS.md)** - All available commands
 
 #### Features
 - ✅ Real-time YOLOv5 inference on live drone feed
@@ -343,10 +337,6 @@ Contributions are welcome! Please follow these steps:
 - Test changes with all three input modes
 - Update README if adding new features
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## 🙏 Acknowledgments
 
 - **Ultralytics**: YOLOv5 architecture
@@ -355,10 +345,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **OpenCV**: Computer vision library
 
 ## 📞 Contact
-
-For questions or support, please open an issue on GitHub or contact:
-- **Email**: your.email@example.com
-- **GitHub**: [@yourusername](https://github.com/yourusername)
 
 ## 🔮 Future Enhancements
 
